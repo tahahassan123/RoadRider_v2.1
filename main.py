@@ -400,6 +400,7 @@ class MainGame:
    def rungame():
     global racersize, fps , playing
     playing = 0
+    racervehicle = allracers[vehiclenum] #future feature
     racer = pygame.image.load(allracers[vehiclenum]).convert_alpha()
     racersize = pygame.transform.scale(racer, (racersizex, racersizey))
     mixer.Sound.stop(crash)
@@ -511,6 +512,5 @@ class MainGame:
     pygame.quit()
 
 runit = MainGame
-#start.sound_racer()
 start.mainmenu()
 
