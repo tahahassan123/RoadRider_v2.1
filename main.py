@@ -11,8 +11,7 @@ HEIGHT = 480
 pygame.display.set_caption("RoadRider", "RR")
 WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
 icon = random.choice(["images/icons/ferrari2.png", "images/icons/ferrari3.png", "images/icons/ferrari1.png", "images/icons/audi.png"])
-randomicon = pygame.image.load(icon).convert_alpha()
-pygame.display.set_icon(randomicon)
+pygame.display.set_icon(pygame.image.load(icon).convert_alpha())
 skyblue = (0, 128, 255)
 lightgrey = (218, 208, 208)
 nightblue = (0, 25, 51)
@@ -29,7 +28,7 @@ arrowrotate2 = pygame.transform.rotate(arrow, 270)
 arrow1 = pygame.transform.scale(arrowrotate, (45, 25))
 arrow2 = pygame.transform.scale(arrowrotate2, (45, 25))
 speedometer = pygame.image.load("images/speedometer.png").convert_alpha()
-allracers = ["vehicles/bmw.png", "vehicles/mustang2.png", "vehicles/corvette.png", "vehicles/mustang.png","vehicles/camry.png", "vehicles/bmwback.png","vehicles/ferrari.png","vehicles/subaru.png", "vehicles/nissanjuke.png","vehicles/test.png" ]
+allracers = ["vehicles/bmw.png", "vehicles/mustang2.png", "vehicles/mustang.png", "vehicles/corvette.png","vehicles/camry.png", "vehicles/bmwback.png","vehicles/ferrari.png","vehicles/subaru.png", "vehicles/nissanjuke.png","vehicles/test.png" ]
 racertext = ["BMW", "Mustang C", "Mustang", "Corvette", "Camry", "BMW GTR", "Ferrari", "Subaru", "Nissan J", "Test Mode"]
 vehicle = ["vehicles/traffic6.png", "vehicles/traffic5.png" , "vehicles/traffic4.png","vehicles/traffic3.png", "vehicles/traffic2.png", "vehicles/traffic.png"]
 racervehicle = "vehicles/bmw.png" #default racer
