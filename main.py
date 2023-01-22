@@ -29,10 +29,9 @@ arrowrotate2 = pygame.transform.rotate(arrow, 270)
 arrow1 = pygame.transform.scale(arrowrotate, (45, 25))
 arrow2 = pygame.transform.scale(arrowrotate2, (45, 25))
 speedometer = pygame.image.load("images/speedometer.png").convert_alpha()
-allracers = ["vehicles/mustang.png", "vehicles/corvette.png", "vehicles/bmw.png","vehicles/camry.png", "vehicles/bmwback.png","vehicles/ferrari.png","vehicles/subaru.png"]
-racertext = ["Mustang", "Corvette", "BMW", "Camry", "BMW GTR", "Ferrari", "Subaru"]
-racervehicle = "vehicles/bmwback.png"
-vehicle = random.choice(["vehicles/traffic.png", "vehicles/mustang.png", "vehicles/corvette2.png", "vehicles/bmw.png","vehicles/camry.png"])
+allracers = ["vehicles/bmw.png", "vehicles/mustang2.png", "vehicles/corvette.png", "vehicles/mustang.png","vehicles/camry.png", "vehicles/bmwback.png","vehicles/ferrari.png","vehicles/subaru.png", "vehicles/nissanjuke.png","vehicles/test.png" ]
+racertext = ["BMW", "Mustang C", "Mustang", "Corvette", "Camry", "BMW GTR", "Ferrari", "Subaru", "Nissan J", "Test Mode"]
+racervehicle = "vehicles/bmw.png" #default racer
 vehiclenum = 0
 racersizex = 200
 racersizey = 140
@@ -51,6 +50,7 @@ movingbackground = ["background/road1.png", "background/road2.png", "background/
                         "background/road15.png", "background/road16.png"]
 font = pygame.font.Font('fonts/LemonMilkRegular.otf', 32)
 font2 = pygame.font.Font("fonts/batman.ttf", 30)
+fontsmall = pygame.font.Font("fonts/batman.ttf", 15)
 font3 = pygame.font.Font("fonts/batman.ttf", 23)
 digitalfont = pygame.font.Font('fonts/Digital.ttf',52)
 digitalfont2 = pygame.font.Font('fonts/Digital.ttf',25)
@@ -81,9 +81,8 @@ constant = mixer.Sound("sound/acceleration2.mp3")
 constant.set_volume(accelerationvol)
 click2 = mixer.Sound("sound/click2.mp3")
 click2.set_volume(clickvol)
-
 class Menus:
-   def mainmenu():
+   def mainmenu(self):
     menu = True
     hoverplay = 0
     if playing == 0:
@@ -133,11 +132,11 @@ class Menus:
                     mixer.music.stop()
                     mixer.Sound.play(click)
                     time.sleep(2)
-                    runit.rungame()
+                    runit.rungame(self)
                 elif (510 > mx > 200) and (270 > my > 205):
                     mixer.Sound.play(click2)
                     time.sleep(0.5)
-                    start.options()
+                    start.options(self)
                 elif (510 > mx > 200) and (370 > my > 305):
                     mixer.music.stop()
                     mixer.Sound.play(click2)
@@ -147,7 +146,7 @@ class Menus:
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-   def options():
+   def options(self):
     options = True
     hoverplay = 0
     global vehiclenum, playing
@@ -194,20 +193,20 @@ class Menus:
                      if (510 > mx > 200) and (170 > my > 105):
                         mixer.Sound.play(click2)
                         time.sleep(0.5)
-                        start.sound_racer()
+                        start.sound_racer(self)
                      elif (510 > mx > 200) and (270 > my > 205):
                          mixer.Sound.play(click2)
                          vehiclenum += 1
-                         if vehiclenum == 7:
+                         if vehiclenum == len(racertext):
                              vehiclenum = 0
                      elif (510 > mx > 200) and (370 > my > 305):
                          mixer.Sound.play(click2)
                          time.sleep(0.5)
-                         start.mainmenu()
+                         start.mainmenu(self)
                  if event.type == pygame.QUIT:
                      pygame.quit()
                      sys.exit()
-   def sound_racer():
+   def sound_racer(self):
        sounds = True
        hoverplay = 0
        global musicvolume, accelerationvol, carpassingvol, skidvol, hovervol, clickvol, crashvol, playing
@@ -318,14 +317,14 @@ class Menus:
                    elif (513 > mx > 200) and (450 > my > 388):
                        mixer.Sound.play(click2)
                        time.sleep(0.5)
-                       start.options()
+                       start.options(self)
                if event.type == pygame.QUIT:
                    pygame.quit()
                    sys.exit()
 start = Menus
 
 class GameScreens:
-   def pause(trafficstartx, trafficstarty):
+   def pause(self, trafficstartx, trafficstarty):
     pygame.mixer.Channel(2).pause()
     pygame.mixer.music.pause()
     constant.stop()
@@ -349,11 +348,11 @@ class GameScreens:
             pygame.mixer.Channel(1).unpause()
             pygame.mixer.Channel(2).unpause()
         elif keypressed[pygame.K_m]:
-            start.mainmenu()
+            start.mainmenu(self)
         elif keypressed[pygame.K_q]:
             pygame.quit()
             sys.exit()
-   def endgame(score, trafficstartx, trafficstarty, trafficsize, racerposition):
+   def endgame(self, score, trafficstartx, trafficstarty, trafficsize, racerposition):
     mixer.Sound.stop(carpassing)
     mixer.Sound.stop(acceleration)
     mixer.Sound.stop(constant)
@@ -377,16 +376,16 @@ class GameScreens:
     pygame.display.update()
 
 class Display:
-   def windowsettings(racerposition, backgroundposition, racersize):
+   def windowsettings(self, racerposition, backgroundposition, racersize):
     global background
     WINDOW.fill(nightblue)
     background = pygame.image.load(movingbackground[backgroundposition]).convert_alpha()
     WINDOW.blit(background, (0, 0))
     WINDOW.blit(racersize, (racerposition))
-   def traffic(trafficstartx, trafficstarty, trafficwidth, trafficheight):
+   def traffic(self, trafficstartx, trafficstarty, trafficwidth, trafficheight):
     global trafficsize, vehicle
     if trafficstarty == 150:
-        vehicle = random.choice(["vehicles/traffic.png"])#, "mustang.png", "corvette2.png", "bmw.png","camry.png"])
+        vehicle = random.choice(["vehicles/traffic4.png","vehicles/traffic3.png", "vehicles/traffic2.png"])
         pygame.mixer.Channel(2).play(carpassing)
     traffic = pygame.image.load(vehicle)
     trafficsize = pygame.transform.scale(traffic, (trafficwidth, trafficheight))
@@ -397,7 +396,7 @@ class Display:
 show = Display
 
 class MainGame:
-   def rungame():
+   def rungame(self):
     global racersize, fps , playing
     playing = 0
     racervehicle = allracers[vehiclenum] #future feature
@@ -433,6 +432,7 @@ class MainGame:
         scoretext = font.render("Score: " + str(score), True, (white))
         mphtext = digitalfont2.render("MPH", True, (grassgreen))
         scoretextoutline = font.render("Score: " + str(score), True, (black))
+        esc = fontsmall.render("ESC = Pause", True, (white))
         if mph <= 157:
             mph = int(FPS * 2.5)
         else:
@@ -440,9 +440,15 @@ class MainGame:
         if playingaccelertion == 1:
             mixer.Sound.play(constant)
             playingaccelertion = 0
+        test = font.render("FOR DEVELOPMENT PURPOSES" , True, (white))
+        testoutline = font.render("FOR DEVELOPMENT PURPOSES", True, (white))
         speed = digitalfont.render(str(mph), True, (grassgreen))
         WINDOW.blit(scoretextoutline, (240, 34))
         WINDOW.blit(scoretext, (245, 30))
+        WINDOW.blit(esc, (10, 29))
+        if vehiclenum == len(allracers) - 1:
+           WINDOW.blit(test, (125, 60))
+           WINDOW.blit(testoutline, (125, 60))
         score += 1
         score = int(score)
         for event in pygame.event.get():
@@ -451,7 +457,7 @@ class MainGame:
             if event.type == USEREVENT + 1:
                 FPS += 1
                 trafficspeed += 1
-        show.traffic(trafficstartx, trafficstarty, trafficwidth, trafficheight)
+        show.traffic(self, trafficstartx, trafficstarty, trafficwidth, trafficheight)
         trafficcollisionbox = pygame.Rect(trafficstartx, trafficstarty, trafficwidth, trafficheight)
         WINDOW.blit(speedometer, (550, 400))
         WINDOW.blit(speed, (590, 425))
@@ -479,7 +485,7 @@ class MainGame:
         if play == 1:
             mixer.Sound.play(skid)
             play = 0
-        show.windowsettings(racerposition, backgroundposition, racersize)
+        show.windowsettings(self, racerposition, backgroundposition, racersize)
         if keypressed[pygame.K_LEFT] and racerposition.x - velocity > 0:
             racerposition.x -= velocity
             play = 1
@@ -487,13 +493,13 @@ class MainGame:
             racerposition.x += velocity
             play = 1
         elif keypressed[pygame.K_ESCAPE]:
-            gamescreens.pause(trafficstartx, trafficstarty)
+            gamescreens.pause(self, trafficstartx, trafficstarty)
         if backgroundposition < 14:
             backgroundposition += 1
         else:
             backgroundposition = 0
-        if racerposition.colliderect(trafficcollisionbox):
-            gamescreens.endgame(score, trafficstartx, trafficstarty, trafficsize, racerposition)
+        if racerposition.colliderect(trafficcollisionbox) and vehiclenum != len(allracers) - 1:
+            gamescreens.endgame(self, score, trafficstartx, trafficstarty, trafficsize, racerposition)
             while run:
                 keypressed = pygame.key.get_pressed()
                 for event in pygame.event.get():
@@ -502,15 +508,15 @@ class MainGame:
                         sys.exit()
                 if keypressed[pygame.K_c]:
                     run = False
-                    runit.rungame()
+                    runit.rungame(self)
                 if keypressed[pygame.K_m]:
                     run = False
-                    start.mainmenu()
+                    start.mainmenu(self)
                 elif keypressed[pygame.K_q]:
                     pygame.quit()
                     sys.exit()
     pygame.quit()
 
 runit = MainGame
-start.mainmenu()
+start.mainmenu("dummytext")
 
